@@ -1,11 +1,28 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-    <h1>Home Page</h1>
-    <hr>
-    {% if current_user.is_authenticated %}
-        <h4>Hello, {{ current_user.name }}</h4>
-    {% else %}
-        <h4>Hello. Who are you?</h4>
-    {% endif %}
+      <h1>Home page</h1>
+      <hr>
+      {% if current_user.is_authenticated %}
+            <h4>Hello, {{ current_user.name }}</h4>
+      {% else %}
+            <h4>Please Log in.</h4>
+      {% endif %}
+
+      <form class="form-inline" action="{{ url_for('index') }}" method="POST">
+            <div class="form-group">
+                  <input type="text" name="post_body" class="form-control" placeholder="Type your status here.">
+            </div>
+            <button type="submit" class="btn btn-info">Submit</button>
+      </form>
+
+      <ul class="list-group">
+            {% for post in posts %}
+                  <li class="list-group-item">
+                        <div>
+                             <a href="{{ url_for('index_single', id=post.id) }}">{{ post.body }}</a>
+                        </div>
+                        <small>{{ post.created_on.strftime("%B %d, %Y") }}</small>
+                  </li>
+            {% endfor %}
+      </ul>
 {% endblock %}

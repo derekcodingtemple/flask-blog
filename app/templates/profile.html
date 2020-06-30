@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Profile page</h1>
+<hr>
+<ul class="list-group">
+    {% for post in posts %}
+    <li class="list-group-item">
+        <div><a href="{{ url_for('profile_single', id=post.id) }}">{{ post.body }}</a></div>
+        <small>{{ post.created_on.strftime('%B %d, %Y @ %I:%M %p') }}</small>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Profile page</h1>
+<hr>
+
+<a href="{{ url_for('profile') }}">Go Back</a>
+
+<ul class="list-group">
+  <li class="list-group-item">
+    <small>Posted on: {{ post.created_on.strftime('%B %d, %Y @ %I:%M %p') }}</small>
+    <div>{{ post.body }}</div>
+  </li>
+</ul>
+{% endblock %}

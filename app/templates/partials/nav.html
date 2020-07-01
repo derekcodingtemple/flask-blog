@@ -9,24 +9,26 @@
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('index') }}">Home</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url_for('profile') }}">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url_for('users') }}">Users</a>
-      </li>
+      {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('profile') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('users.index') }}">Users</a>
+        </li>
+      {% endif %}
     </ul>
     <ul class="navbar-nav m1-auto">
       {% if not current_user.is_authenticated %}
         <li class="nav-item">
-          <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+          <a href="{{ url_for('account.login') }}" class="nav-link">Login</a>
         </li>
         <li class="nav-item">
-          <a href="{{ url_for('register') }}" class="nav-link">Register</a>
+          <a href="{{ url_for('account.register') }}" class="nav-link">Register</a>
         </li>
       {% else %}
         <li class="nav-item">
-          <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+          <a href="{{ url_for('account.logout') }}" class="nav-link">Logout</a>
         </li>
       {% endif %}
     </ul>

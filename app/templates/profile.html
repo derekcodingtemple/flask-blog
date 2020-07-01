@@ -1,12 +1,22 @@
 {% extends 'layout.html' %}
+
+{% block title %}Profile | {{ super() }}{% endblock %}
+
 {% block content %}
 <h1>Profile page</h1>
 <hr>
 <ul class="list-group">
     {% for post in posts %}
     <li class="list-group-item">
-        <div><a href="{{ url_for('profile_single', id=post.id) }}">{{ post.body }}</a></div>
-        <small>{{ post.created_on.strftime('%B %d, %Y @ %I:%M %p') }}</small>
+        <div class="row">
+            <div class="col-md-1">
+                <img src="{{ post.author.avatar(128) }}" class="img-fluid" alt="">
+            </div>
+            <div class="col-md">
+                <div><a href="{{ url_for('profile_single', id=post.id) }}">{{ post.body }}</a></div>
+                <small>{{ moment(post.created_on).fromNow() }}</small>
+            </div>
+        </div>
     </li>
     {% endfor %}
 </ul>

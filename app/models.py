@@ -2,6 +2,7 @@ from . import db, login_manager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from hashlib import md5
 
 followers = db.Table(
     "followers",
@@ -15,7 +16,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
-    posts = db.relationship("Post", backref="posts", lazy="dynamic")
+    posts = db.relationship("Post", backref="author", lazy="dynamic")
     followed = db.relationship(
         "User",
         secondary=followers,
@@ -24,6 +25,15 @@ class User(UserMixin, db.Model):
         backref=db.backref("followers", lazy="dynamic"),
         lazy="dynamic",
     )
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return f'https://www.gravatar.com/avatar/{digest}?s={size}&d=identicon'
+
+    def followed_posts(self):
+        followed = Post.query.join(followers, (followers.c.followed_id == Post.user_id)).filter(followers.c.follower_id == self.id)
+        users_posts = Post.query.filter_by(user_id=self.id)
+        return followed.union(users_posts).order_by(Post.created_on.desc())
 
     def __repr__(self):
         return f"User: {self.name}"

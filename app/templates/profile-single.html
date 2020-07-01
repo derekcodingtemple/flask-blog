@@ -1,4 +1,7 @@
 {% extends 'layout.html' %}
+
+{% block title %}Post | {{ super() }}{% endblock %}
+
 {% block content %}
 <h1>Profile page</h1>
 <hr>
@@ -7,7 +10,7 @@
 
 <ul class="list-group">
   <li class="list-group-item">
-    <small>Posted on: {{ post.created_on.strftime('%B %d, %Y @ %I:%M %p') }}</small>
+    <small>Posted: {{ moment(post.created_on).fromNow() }}</small>
     <div>{{ post.body }}</div>
   </li>
 </ul>

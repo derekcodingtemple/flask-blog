@@ -10,6 +10,8 @@
 # finally:
 #     print("This will execute regardless")
 
+print("Test me")
+
 x = input("Type something here")
 if x != int:
     raise NameError('You have to have convert it to an integer first.')

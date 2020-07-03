@@ -32,6 +32,9 @@ def create_app(config_class=Config):
     from app.blueprints.users import users
     app.register_blueprint(users, url_prefix='/users')
 
+    from app.blueprints.api import api
+    app.register_blueprint(api)
+
     with app.app_context():
         from app import routes
 

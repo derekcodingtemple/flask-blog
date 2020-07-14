@@ -1,6 +1,6 @@
 from . import api
 from flask import jsonify, request
-from app.models import User
+from app.models import User, Post
 from app import db
 from .auth import token_auth
 
@@ -16,7 +16,7 @@ def users():
 @token_auth.login_required
 def user(id):
     """
-    [GET] /api/<id>
+    [GET] /api/user/<id>
     """
     user = User.query.get_or_404(id)
     return jsonify(user.to_dict()), 200
@@ -60,3 +60,11 @@ def delete_user(id):
     db.session.delete(u)
     db.session.commit()
     return jsonify([u.to_dict() for u in User.query.all()])
+
+
+@api.route('/blog/posts', methods=['GET'])
+def get_posts():
+    """
+    [GET] /api/blog/posts
+    """
+    return jsonify([p.to_dict() for p in Post.query.all()])
